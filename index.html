@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0a0f">
+<title>Scripting Witch — Coming Soon</title>
+<meta name="description" content="Scripting Witch — something magical is being conjured. Coming soon.">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #111119;
+  --card-border: #1e1e3a;
+  --purple: #9333ea;
+  --purple-lt: #c084fc;
+  --purple-glow: rgba(147, 51, 234, .12);
+  --green: #22c55e;
+  --green-dim: rgba(34, 197, 94, .6);
+  --text: #e2e2f0;
+  --text-md: #8888a8;
+  --text-lt: #5a5a78;
+  --mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  --serif: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% 20%, rgba(147, 51, 234, .08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(34, 197, 94, .03) 0%, transparent 40%);
+  overflow-x: hidden;
+}
+
+/* ── Ambient stars ────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.15), transparent),
+    radial-gradient(1px 1px at 30% 65%, rgba(255,255,255,.1), transparent),
+    radial-gradient(1px 1px at 55% 10%, rgba(255,255,255,.12), transparent),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.08), transparent),
+    radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,.14), transparent),
+    radial-gradient(1px 1px at 20% 85%, rgba(255,255,255,.06), transparent),
+    radial-gradient(1px 1px at 45% 50%, rgba(255,255,255,.1), transparent),
+    radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,.08), transparent),
+    radial-gradient(1.5px 1.5px at 15% 45%, rgba(196,181,253,.12), transparent),
+    radial-gradient(1.5px 1.5px at 65% 85%, rgba(196,181,253,.08), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Card ─────────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 52px 44px 44px;
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+  box-shadow:
+    0 0 60px var(--purple-glow),
+    0 8px 32px rgba(0, 0, 0, .4);
+}
+
+/* ── Icon ─────────────────────────────────────── */
+.icon {
+  font-size: 2.8rem;
+  margin-bottom: 24px;
+  line-height: 1;
+  animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px rgba(147, 51, 234, .35));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ── Brand name ───────────────────────────────── */
+.brand {
+  font-size: 2.6rem;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.brand-code {
+  font-family: var(--mono);
+  color: var(--green);
+  font-weight: 600;
+  font-size: .82em;
+  letter-spacing: -.02em;
+}
+
+.brand-witch {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--purple-lt);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* ── Divider ──────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0 24px;
+  color: var(--text-lt);
+  font-size: .75rem;
+}
+
+.divider-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+}
+
+.divider-star {
+  color: var(--purple-lt);
+  font-size: .6rem;
+  opacity: .6;
+}
+
+/* ── Status badge ─────────────────────────────── */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(147, 51, 234, .08);
+  border: 1px solid rgba(147, 51, 234, .2);
+  border-radius: 20px;
+  padding: 6px 16px;
+  margin-bottom: 24px;
+  font-family: var(--mono);
+  font-size: .65rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--purple-lt);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green-dim);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+
+/* ── Body text ────────────────────────────────── */
+.tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text);
+  font-weight: 400;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.description {
+  font-size: .85rem;
+  color: var(--text-md);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* ── Contact ──────────────────────────────────── */
+.contact {
+  background: rgba(34, 197, 94, .04);
+  border: 1px solid rgba(34, 197, 94, .12);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.contact-label {
+  font-family: var(--mono);
+  font-size: .55rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-lt);
+  margin-bottom: 4px;
+}
+
+.contact a {
+  font-family: var(--mono);
+  font-size: .82rem;
+  color: var(--green);
+  text-decoration: none;
+  transition: color .2s, text-shadow .2s;
+}
+
+.contact a:hover {
+  color: #4ade80;
+  text-shadow: 0 0 12px rgba(34, 197, 94, .3);
+}
+
+/* ── Footer ───────────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 32px;
+  font-size: .65rem;
+  color: var(--text-lt);
+  letter-spacing: .05em;
+}
+
+/* ── Terminal cursor blink ────────────────────── */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: .85em;
+  background: var(--green);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 480px) {
+  .card {
+    padding: 40px 24px 32px;
+  }
+  .brand {
+    font-size: 2rem;
+  }
+  .tagline {
+    font-size: .95rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon" aria-hidden="true">&#x1F52E;</div>
+
+  <h1 class="brand">
+    <span class="brand-code">Scripting</span>
+    <span class="brand-witch">Witch</span>
+  </h1>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-star">&#x2726;</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="status">
+    <span class="status-dot"></span>
+    Under Construction
+  </div>
+
+  <p class="tagline">Something magical is being conjured<span class="cursor"></span></p>
+
+  <p class="description">
+    This site is currently being built. New spells take time to get right.
+    Check back soon, or reach out below.
+  </p>
+
+  <div class="contact">
+    <div class="contact-label">Contact</div>
+    <a href="mailto:eris@scriptingwitch.com">eris@scriptingwitch.com</a>
+  </div>
+</div>
+
+<div class="footer">&copy; 2026 Scripting Witch</div>
+
+</body>
+</html>
